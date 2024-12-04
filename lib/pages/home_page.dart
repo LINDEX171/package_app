@@ -30,7 +30,13 @@ class _HomePageState extends State<HomePage> {
           }, icon: Icon(Icons.refresh))
         ],
       ),
-      body: Text("$pays"),
+      body: ListView.builder(
+        itemBuilder: (context, index) {
+          return ListTile(
+            leading: Text(pays[index]["flag"]),
+            title: Text(pays[index]["name"]["common"]),subtitle: Text(pays[index]["capital"][0]),);
+        },
+      ),
     );
   }
 }
