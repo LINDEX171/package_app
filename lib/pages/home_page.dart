@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -8,17 +9,19 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   final dio = Dio();
   List pays = [];
-  getCountries() async{
-    final response =await dio.get("https://restcountries.com/v3.1/all");
-    setState(() {
-      pays = response.data;
-    });
+
+  getCountries() async {
+    try {
+      final response = await dio.get("https://restcountries.com/v3.1/all");
+      setState(() {
+        pays = response.data;
+      });
+    } catch (e) {
+      print("Erreur lors de la récupération des données : $e");
+    }
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -26,17 +29,31 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         actions: [
-          IconButton(onPressed: () {
-          getCountries();
-          }, icon: Icon(Icons.refresh))
+          IconButton(
+            onPressed: () {
+              getCountries();
+            },
+            icon: const Icon(Icons.refresh),
+          )
         ],
       ),
       body: ListView.builder(
         itemCount: pays.length,
         itemBuilder: (context, index) {
+          final country = pays[index];
+
+          // Gestion des champs optionnels
+          final flag = country["flag"] ;
+          final name = country["name"]["common"];
+          final capital = (country["capital"] != null && country["capital"].isNotEmpty)
+              ? country["capital"][0]
+              : "Capitale inconnue";
+
           return ListTile(
-            leading: Text(pays[index]["flag"]),
-            title: Text(pays[index]["name"]["common"]),subtitle: Text(pays[index]["capital"][0]),);
+            leading: Text(flag),
+            title: Text(name),
+            subtitle: Text(capital),
+          );
         },
       ),
     );
