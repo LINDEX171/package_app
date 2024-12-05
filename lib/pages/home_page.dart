@@ -19,6 +19,7 @@ class _HomePageState extends State<HomePage> {
   }
 
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,6 +32,7 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       body: ListView.builder(
+        itemCount: pays.length,
         itemBuilder: (context, index) {
           return ListTile(
             leading: Text(pays[index]["flag"]),
