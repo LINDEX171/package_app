@@ -50,9 +50,13 @@ class _HomePageState extends State<HomePage> {
               : "Capitale inconnue";
 
           return ListTile(
-            leading: Text(flag),
+            leading: Text(flag,style: TextStyle(fontSize: 40,),),
             title: Text(name),
             subtitle: Text(capital),
+            onTap: () {
+
+            },
+
           );
         },
       ),
